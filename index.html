@@ -70,12 +70,18 @@
             border-radius: 15px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
             transition: transform 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
         }
 
         .photo-gallery img:hover {
             transform: scale(1.05);
             box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
             filter: brightness(1.2);
+        }
+
+        .photo-gallery img:active {
+            transform: scale(1.5);
+            z-index: 1000;
         }
 
         footer {
@@ -134,11 +140,22 @@
             }
         }
 
+        function preloadImages(photoArray) {
+            return photoArray.map(photo => {
+                const img = new Image();
+                img.src = photo;
+                img.onerror = () => {
+                    console.error(`Error loading image: ${photo}`);
+                };
+                return photo;
+            });
+        }
+
         window.onload = function() {
             validateAccessKey();
 
             const photoGallery = document.getElementById('photo-gallery');
-            const photos = [
+            const photos = preloadImages([
                 './images/DPJZ3124.JPG',
                 './images/IGMT8087.JPG',
                 './images/IMG_0841.jpg',
@@ -156,15 +173,12 @@
                 './images/IMG_5552.jpg',
                 './images/SFNC2613.JPG',
                 './images/WOHL1153.JPG'
-            ];
+            ]);
 
             photos.forEach(photo => {
                 const img = document.createElement('img');
                 img.src = photo;
                 img.alt = "Our memory";
-                img.onerror = () => {
-                    console.error(`Error loading image: ${photo}`);
-                };
                 photoGallery.appendChild(img);
             });
         };
