@@ -48,6 +48,24 @@
             color: #fff;
         }
     </style>
+    <script>
+        // Secret access key
+        const validAccessKey = "yourSecretKey";
+
+        // Function to validate the access key
+        function validateAccessKey() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const accessKey = urlParams.get("accessKey");
+
+            if (accessKey !== validAccessKey) {
+                // Redirect to "Access Denied" page
+                window.location.href = "access-denied.html";
+            }
+        }
+
+        // Run validation on page load
+        window.onload = validateAccessKey;
+    </script>
 </head>
 <body>
     <header>
